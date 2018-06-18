@@ -44,7 +44,7 @@ module CayleyGraphs
 
     # Identify hash with hash of repr
     hash(x::ZeroCfield) = hash(repr(x))
-    hash(x::Cfield) = (x == zero(x)) ? hash(zero(Cfield)) : hash(repr(x))
+    hash(x::Cfield) = (x == zero(x)) ? hash(ZeroCfield) : hash(repr(x))
 
     # function mapping element of power set of {1,...,n} bijectively to {0,1}^n
     function inj(x::Array{Int64, 1}, n::Int64)
