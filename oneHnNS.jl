@@ -19,9 +19,9 @@ greys = get_cmap("Greys")
 # Number of neural net layers
 L = 4
 
-# Create iterable representing Cartesian product of {1,...,L} and sF
+# Create iterable representing Cartesian product of {1,...,L+1} and sF
 cart = Array{Tuple{Int64, Int64}, 1}()
-for j in 1:L
+for j in 1:(L+1)
 	for k in sF
 		push!(cart, (j, k))
 	end
@@ -42,30 +42,33 @@ function To1(X::SparseMatrixCSC{Int64, Int64})
 	return X
 end
 
+# Make figures for explicit expanders from 5 random bases (w/out replacement) of F
 for lett in ["a", "b", "c", "d", "e"]
 	mat = CayleyGraphs.matrix_from_H(A[rand(1:end)], F)
 	Mat = mat^L
 	
+	# Make matrix image square
 	f = figure(figsize=(5, 5))
 	ax = gca()
 	axis("off")
+	# "Invert" y-axis for conventional row indexing
 	ylim(16, 0)
+	# Make matrix image monochromatic
 	pcolor(mat, cmap=greys)
 	savefig(lett*".png", format="png")
 
 	f = figure(figsize=(5, 5))
 	ax = gca()
 	axis("off")
+	ylim(16, 0)
 	pcolor(To1(Mat), cmap=greys, vmin=0, vmax=1)
 	savefig(lett*"P.png", format="png")
 
 	f = figure()
 	ax = gca()
 	B = nx.DiGraph()
-	for elem in cart
-		B[:add_nodes_from](cart)
-	end
-	for j in 1:(L-1)
+	B[:add_nodes_from](cart)
+	for j in 1:L
 		for k in sF
 			for l in sF
 				if mat[k, l] == 1
@@ -80,15 +83,13 @@ for lett in ["a", "b", "c", "d", "e"]
 		posB[node] = (node[1], node[2])
 	end
 	
-	nx.draw(B, pos=posB)
+	nx.draw(B, pos=posB, node_size=100)
 	savefig(lett*"NN.png", format="png")
 
 	f = figure()
 	ax = gca()
 	BB = nx.DiGraph()
-	for j in 0:1
-		BB[:add_nodes_from](cart2)
-	end
+	BB[:add_nodes_from](cart2)
 	for j in sF
 		for k in sF
 			if Mat[j, k] != 0
@@ -102,7 +103,6 @@ for lett in ["a", "b", "c", "d", "e"]
 		posBB[node] = (node[1], node[2])
 	end
 
-	nx.draw(BB, pos=posBB)
+	nx.draw(BB, pos=posBB, node_size=100)
 	savefig(lett*"Paths.png", format="png")
-
 end

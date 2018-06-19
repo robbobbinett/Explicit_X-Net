@@ -14,6 +14,9 @@ module CayleyGraphs
     # Immutable type for general additive identity
     immutable ZeroCfield <: cfield end
 
+    # Default Cfield to ZeroCfield when no argument given
+    Cfield() = ZeroCfield()
+
     # Define elementwise addition modulo 2
     +(x::Cfield, y::Cfield) = Cfield(mod.((x.arr+y.arr)::Array{Int32, 1}, 2))
     +(x::ZeroCfield, y::Cfield) = y
@@ -31,14 +34,14 @@ module CayleyGraphs
     ==(x::Cfield, y::Cfield) = isequal(x,y)
     isequal(x::ZeroCfield, y::Cfield) = zero(y) == y
     ==(x::ZeroCfield, y::Cfield) = isequal(x::ZeroCfield, y::Cfield)
-    isequal(x::Cfield, y::ZeroCfield) = x == zero(y)
+    isequal(x::Cfield, y::ZeroCfield) = x == zero(x)
     ==(x::ZeroCfield, y::Cfield) = isequal(x::Cfield, y::ZeroCfield)
     isequal(x::ZeroCfield, y::ZeroCfield) = true
     ==(x::ZeroCfield, y::ZeroCfield) = true
 
     # Allow for lexicographic sorting
     isless(x::Cfield, y::Cfield) = repr(x.arr) < repr(y.arr)
-    isless(x::ZeroCfield, y::Cfield) = (y == zero(y)) ? false : true
+    isless(x::ZeroCfield, y::Cfield) = (x == y) ? false : true
     isless(x::Cfield, y::ZeroCfield) = false
     isless(x::ZeroCfield, y::ZeroCfield) = false
 
@@ -67,6 +70,7 @@ module CayleyGraphs
     function generates(H::Set{Cfield}, k::Int64)
         HH = collect(H)
         ps = collect(powerset(HH))
+	println(ps)
         FF = map(x -> sum(x), ps)
         FFF = Set{Cfield}()
         for ff in FF
@@ -90,7 +94,6 @@ module CayleyGraphs
 
     # Make map from element of F to its numerical index by lexicographic order
     indF(x::Cfield, F::Array{Cfield, 1}) = find(y -> (y == x), F)[1]
-
 
     # Make weights matrix from set of generators
     function matrix_from_H(H::Set{Cfield}, F::Array{Cfield, 1})
