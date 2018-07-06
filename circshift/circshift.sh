@@ -5,6 +5,6 @@ rm -fr samples
 mkdir samples
 
 while read p; do
-	julia circshift.jl $p
-	python3 circshift.py $p
-done <d_n_combos.txt
+	julia circshift/circshift.jl $p
+	python3 circshift/circshift.py $p
+done <circshift/d_n_combos.txt
