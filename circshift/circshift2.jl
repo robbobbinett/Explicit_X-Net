@@ -5,22 +5,22 @@ L = parse(ARGS[2])
 println("D = $(D), L = $(L)")
 
 N = D^L
-I = speye(N, N)
-Wprod = I
-W = Array{SparseMatrixCSC{Float64, Int64}}(L)
+W = speye(N, N)
+# W = Array{SparseMatrixCSC{Int64,Int64}, 1}()
 
+J = repeat(1:N, inner=D)
+V = ones(Int64, N*D)
 for i in 0:(L-1)
-	W[i+1] = I
-	for d in 2:D
-		Iid = circshift(I, ((D^i) * (d-1), 0))
-		W[i+1] += Iid
+	K = Array{Int64, 1}()
+	for arr in map(x -> [((x+(D^i*d)-1) % N) + 1 for d in 1:D], 1:N)
+		append!(K, arr)
 	end
-	Wprod = W[i+1]*Wprod
+	W *= sparse(J, K, V)
 end
 
-men = minimum(Wprod)
-maxx = maximum(Wprod)
-some = sum(Wprod, 1)
+men = minimum(W)
+maxx = maximum(W)
+some = sum(W, 1)
 println("Connected: $(men > 0)")
 println("Symmetry: $(maxx == men)")
 println("Same Degree: $(minimum(some) == maximum(some))")
