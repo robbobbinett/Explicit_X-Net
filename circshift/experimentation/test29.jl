@@ -37,13 +37,13 @@ B[:add_nodes_from](cart)
 # Iterate over adjacency matrices
 for j in 1:L
 	w = W[j]
-	# Number of circshifts
-	D = length(Wpre[j])
 
 	# Create edges
-	for row in w
-		for col in row
-			B[:add_edge]((j-1, row), (j, col))
+	for row in 1:N
+		for col in 1:N
+			if w[row, col] == 1
+				B[:add_edge]((j-1, row), (j, col))
+			end
 		end
 	end
 end
