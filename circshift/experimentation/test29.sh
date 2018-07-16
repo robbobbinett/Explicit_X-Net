@@ -1,6 +1,5 @@
 #!/bin/bash
 
-./clean.sh
 rm -rf test29
 mkdir test29
 while read p; do

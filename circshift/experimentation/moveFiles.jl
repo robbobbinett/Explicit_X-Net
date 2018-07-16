@@ -9,7 +9,7 @@ name = string(Wpre)
 dest = myDir*"/test29/"*name
 mkdir(dest)
 for filename in readdir()
-	if occursin(name, filename)
-		mv(filename, dest)
+	if contains(filename, name) && !contains(filename, "test29")
+		mv(filename, dest*"/"*filename)
 	end
 end
