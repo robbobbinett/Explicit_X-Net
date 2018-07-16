@@ -48,10 +48,24 @@ for j in 1:L
 	end
 end
 
+# Positions of nodes in graph
 posB = Dict()
 for node in B
 	posB[node] = (node[1], node[2])
 end
 
+# Export .png
 nx.draw(B, pos=posB, node_size=100)
 savefig(name*"NN.png", format="png")
+
+# Mutliply adjacency matrices
+Wprod = prod(W)
+
+# Run test
+test1 = maximum(Wprod) == minimum(Wprod)
+numpaths = maximum(Wprod)
+
+# Save values to .txt file
+open("test29/results.txt", "a+") do f
+	write(f, name*", "*string(test1)*", "*string(numpaths)*"\n")
+end
