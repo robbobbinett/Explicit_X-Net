@@ -1,5 +1,5 @@
-N = 16
-L = 4
+N = 27
+L = 3
 I = eye(N)
 
 # Define vertical rotations of indices
@@ -56,7 +56,7 @@ end
 
 # Export .png
 nx.draw(B, pos=posB, node_size=100)
-savefig("test29/"*name*"NN.png", format="png")
+savefig("test31/"*name*"NN.png", format="png")
 
 # Mutliply adjacency matrices
 Wprod = prod(W)
@@ -66,6 +66,6 @@ test1 = maximum(Wprod) == minimum(Wprod)
 numpaths = maximum(Wprod)
 
 # Save values to .txt file
-open("test29/results.txt", "a+") do f
+open("test31/results.txt", "a+") do f
 	write(f, name*", "*string(test1)*", "*string(numpaths)*"\n")
 end
