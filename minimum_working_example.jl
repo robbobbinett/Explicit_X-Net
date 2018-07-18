@@ -1,7 +1,10 @@
 # List of branching factors
-D = [2, 3, 3, 5, 2]
+D = [2, 3, 5, 7, 11]
+# Indices of branching factors which do not contribute to N
+# In this example, "5" and "7" do not contribute to N
+inds = [3,4]
 L = length(D)
-N = prod(D)
+N = div(prod(D), prod([D[ind] for ind in inds]))
 
 I = eye(Int32, N)
 
