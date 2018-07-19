@@ -32,6 +32,6 @@ test1 = maximum(Wprod) == minimum(Wprod)
 numpaths = maximum(Wprod)
 
 # Save values to .txt file
-open("test32/results.txt", "a+") do f
+open("test34/results.txt", "a+") do f
 	write(f, name*", "*string(test1)*", "*string(numpaths)*"\n")
 end

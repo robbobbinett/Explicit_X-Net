@@ -1,7 +1,7 @@
 # Read in each of the layers
 D = eval(parse(ARGS[1]))
-N = div(prod(D), eval(parse(ARGS[2])))
-L = length(D)
+omit = eval(parse(ARGS[2]))
+N = prod(D)
 
 # Define vertical rotations of indices
 I = eye(Int32, N)
@@ -14,15 +14,13 @@ for d in D
         pv *= d
 end
 
+for om in omit
+	w = sum([circshift(I, (j, 0)) for j in 0:(om-1)])
+	insert!(W, rand(1:length(W)), w)
+end
+
 # Create name for saving files from input
 name = ARGS[1]*", "*ARGS[2]
-
-# Check for entries that are neither one or zero
-for w in W
-	if maximum(w) != 1
-		error(name*"\nThe maximum of this matrix is $(maximum(w)).")
-	end
-end
 
 # Mutliply adjacency matrices
 Wprod = prod(W)
@@ -32,6 +30,6 @@ test1 = maximum(Wprod) == minimum(Wprod)
 numpaths = maximum(Wprod)
 
 # Save values to .txt file
-open("test32/results.txt", "a+") do f
+open("test35/results.txt", "a+") do f
 	write(f, name*", "*string(test1)*", "*string(numpaths)*"\n")
 end

@@ -1,10 +1,15 @@
 # List of branching factors
-D = [2, 3, 5, 7, 11]
-# Indices of branching factors which do not contribute to N
-# In this example, "5" and "7" do not contribute to N
-inds = [3,4]
-L = length(D)
-N = div(prod(D), prod([D[ind] for ind in inds]))
+D = [2, 3, 11]
+
+# List of pseudo-branching factors which do not contribute to N
+Dprime = [5, 7]
+
+# List of indices for the insertion of layers corresponding to
+# elements of Dprime
+inds = [3, 4]
+
+L = length(D)+length(Dprime)
+N = prod(D)
 
 I = eye(Int32, N)
 
@@ -16,12 +21,10 @@ for d in D
 	pv *= d
 end
 
-# Create Cartesian product of {0,...,L} and {1,...,N}
-cart = Array{Tuple{Int64, Int64}, 1}()
-for j in 0:L
-        for k in 1:N
-                push!(cart, (j, k))
-        end
+# Insert weight matrices corresponding to elements of Dprime
+for (d, ind) in zip(Dprime, inds)
+	w = sum([circshift(I, (j, 0)) for j in 0:(d-1)])
+	insert!(W, ind, w)
 end
 
 # Mutliply adjacency matrices
