@@ -1,6 +1,8 @@
-Ns = [[10, 10, 10], [10]]
-B = [1, 2, 3, 2, 1]
-D = [1, 1, 1, 1]
+BD = eval(parse(ARGS[1]))
+B = BD[1]
+D = BD[2]
+
+Ns = map(x -> eval(parse("Int32"*x)), ARGS[2:end])
 
 NN = prod(Ns[1])
 L = sum(map(x -> length(x), Ns))
@@ -44,7 +46,7 @@ for (j, prew) in enumerate(preW)
 					for postb in 0:postB-1
 						for gtd in 0:g_to_d-1
 							for gtd2 in 0:g_to_d-1
-								w[k+gtd*NN+preb*gNN, l+((gtd+gtd2) % g_to_d)*NN+postb*gNN]
+								w[((k+gtd*NN+preb*gNN-1)%preNN)+1, ((l+((gtd+gtd2) % g_to_d)*NN+postb*gNN-1)%postNN)+1] = 1
 							end
 						end
 					end
