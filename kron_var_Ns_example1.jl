@@ -11,7 +11,7 @@ D = [1, 1, 1, 1]
 # B give D in the original format.
 
 NN = prod(Ns[1])
-L = sum(map(x -> length(x), Ns))
+M = sum(map(x -> length(x), Ns))
 
 for (j, d) in enumerate(D)
 	if (gcd(B[j], B[j+1]) % d) != 0
@@ -19,8 +19,8 @@ for (j, d) in enumerate(D)
 	end
 end
 
-# Construct weight matrices for the case B = ones(Int32, L+1),
-# D = ones(Int32, L)
+# Construct weight matrices for the case B = ones(Int32, M+1),
+# D = ones(Int32, M)
 I = eye(Int32, NN)
 preW = Array{Array{Int32, 2}, 1}()
 for N in Ns
@@ -33,7 +33,7 @@ end
 
 # Construct matrices A for Kronecker products A x B
 krons = Array{Array{Int32, 2}, 1}()
-for j in 1:L
+for j in 1:M
 	kMatD = zeros(Int32, (B[j], B[j+1]))
 	g = gcd(B[j], B[j+1])
 	g_to_d = div(g, D[j])
