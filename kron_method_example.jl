@@ -1,13 +1,18 @@
-# Original format:
+# Original format (not supported in this script):
 # N = [1000 2000 3000 2000 1000]
 # D = [20, 30, 20, 10]
 
-# Explicit format:
-# Ns = [[10, 10, 10], [10]]
-# B = [1, 2, 3, 2, 1]
-# D = [1, 1, 1, 1]
+# Explicit format (more precise, but not default):
+### BEGIN MULTI-LINE COMMENT
+#= Remove this multi-line comment if explicit format preferred.
+Ns = [[10, 10, 10], [10]]
+B = [1, 2, 3, 2, 1]
+D = [1, 1, 1, 1]
+=#
+### END MULTI-LINE COMMENT
 
-# Proposed format:
+# Proposed format (default):
+### IF DOING EXPLICIT FORMAT, BEGIN MULTI-LINE COMMENT HERE
 N = [1000 2000 3000 2000 1000]
 D = [10, 10, 10, 10]
 
@@ -48,6 +53,9 @@ B = map(x -> div(x, gN), N)
 
 # Make D (explicit format)
 D = ones(Int32, length(D))
+
+### IF DOING EXPLICIT FORMAT, END MULTI-LINE COMMENT HERE
+
 
 NN = gN
 M = sum(map(x -> length(x), Ns))
