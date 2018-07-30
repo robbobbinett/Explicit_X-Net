@@ -2,3 +2,5 @@
 *.out
 error.txt
 *.log-*
+batch*
+test*
