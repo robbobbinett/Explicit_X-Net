@@ -1,4 +1,26 @@
-# Explicit format (more precise, but not default):
+# Examples A and B give same DNN topology for both formats.
+#= Explicit format (more precise, but not default):
+Example A: 
+Ns = [[7,7,7], [7]]
+B = [3, 2, 6, 9, 1]
+D = [1, 1, 1, 1]]
+
+Example B:
+Ns = [[3,3]]
+B = [1, 2, 1]
+D = [1, 1]
+
+Example C:
+Ns = [[13,7,10]]
+B = [3, 2, 6, 9]
+D = [1, 2, 3]
+
+Example D:
+Ns = [[8,8,8,8], [4,8,16,8], [16,8,8,16], [8,16]]
+B = [1, 4, 2, 3, 1, 1, 1, 2, 3, 4, 2, 3, 3, 2, 1]
+D = [2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1]
+=#
+
 ### BEGIN MULTI-LINE COMMENT
 #= Remove this multi-line comment if explicit format preferred.
 Ns = [[10, 10, 10], [10]]
@@ -7,7 +29,24 @@ D = [1, 1, 1, 1]
 =#
 ### END MULTI-LINE COMMENT
 
-# Reduced format (default):
+#= Reduced format (default):
+Example A:
+N = [1029, 686, 2058, 3087, 343]
+D = [14, 42, 63, 7]
+
+Example B:
+N = [9, 18, 9]
+D = [6, 3]
+
+Example C:
+N = [900, 1800, 900, 1800, 2700, 4500, 2700, 1800, 900]
+D = [10, 20, 9, 20, 30, 45, 30, 20, 9]
+
+Example D:
+N = [1820, 3640, 910, 5460, 3640]
+D = [14, 8, 5, 78, 28]
+=# 
+
 ### IF DOING EXPLICIT FORMAT, BEGIN MULTI-LINE COMMENT HERE
 N = [1000, 2000, 3000, 2000, 1000]
 D = [20, 30, 20, 10]
