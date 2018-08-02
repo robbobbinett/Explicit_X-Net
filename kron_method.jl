@@ -88,7 +88,7 @@ else
 end
 
 # Make D (explicit format)
-D = ones(Int32, length(DD))
+D = map(x -> gcd(B[x], B[x+1]), 1:length(DD))
 
 ### IF DOING EXPLICIT FORMAT, END MULTI-LINE COMMENT HERE
 
