@@ -25,9 +25,9 @@ using Permutations
 
  ### BEGIN MULTI-LINE COMMENT
  #Remove this multi-line comment if explicit format preferred.
- Ns = [[2*(10^3), 5*(10^3)]]
- B = [1, 1, 1, 1, 1]
- D = [1, 1, 1, 1]
+ Ns = [[10^3, 10^3]]
+ B = [1, 1, 1]
+ D = [1, 1]
  ### END MULTI-LINE COMMENT
 
  #= Reduced format (default):
@@ -110,18 +110,32 @@ end
 # I = speye(Int32, NN)
 # pp = map(x -> (x % NN)+1, 1:NN)
 # p = Permutation(pp)
-# println("p done")
+println("p done")
 preW = Array{SparseMatrixCSC{Int32, Int32}, 1}()
-conv(x::Int) = (x == 0) ? NN : x
+function conv(x::Int, j::Int, pv::Int)
+	pre = (x+j*pv)%NN
+	pre = (pre == 0) ? NN : pre
+	return pre
+end
+
+#conv(x::Int) = (x == 0) ? NN : x
+
+println("working")
 for N in Ns
 	pv = 1
 	for d in N
 		prepreW = Array{SparseMatrixCSC{Int32, Int32}, 1}()
-		push!(prepreW, I)
-		for j in 1:(d-1)
-			pp = map(x -> conv((x+j*pv)%NN), 1:NN)
-			p = Permutation(pp)
-			push!(prepreW, sparse(p))
+		for j in 0:(d-1)
+			if rem(j, 100) == 1
+				@time(begin
+				pp = conv.(1:NN, j, pv)
+				p = Permutation(pp)
+				push!(prepreW, sparse(p)) end)
+			else
+				pp = conv.(1:NN, j, pv)
+				p = Permutation(pp)
+				push!(prepreW, sparse(p))
+			end
 		end
 		println("d done")
 		push!(preW, sum(prepreW))
