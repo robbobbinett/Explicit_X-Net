@@ -125,17 +125,15 @@ for N in Ns
 	pv = 1
 	for d in N
 		prepreW = Array{SparseMatrixCSC{Int32, Int32}, 1}()
+                tic()
 		for j in 0:(d-1)
-			if rem(j, 100) == 1
-				@time(begin
-				pp = conv.(1:NN, j, pv)
-				p = Permutation(pp)
-				push!(prepreW, sparse(p)) end)
-			else
-				pp = conv.(1:NN, j, pv)
-				p = Permutation(pp)
-				push!(prepreW, sparse(p))
-			end
+		    pp = conv.(1:NN, j, pv)
+		    p = Permutation(pp)
+		    push!(prepreW, sparse(p))
+                    if rem(j, 100) == 1
+                        println(toq())
+                        tic()
+		    end
 		end
 		println("d done")
 		push!(preW, sum(prepreW))
