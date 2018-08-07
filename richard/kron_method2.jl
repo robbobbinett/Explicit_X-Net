@@ -116,16 +116,16 @@ conv(x::Int) = (x == 0) ? NN : x
 for N in Ns
 	pv = 1
 	for d in N
-		prepreW = Array{SparseMatrixCSC{Int32, Int32}, 1}()
-		push!(prepreW, I)
-		for j in 1:(d-1)
-			pp = map(x -> conv((x+j*pv)%NN), 1:NN)
-			p = Permutation(pp)
-			push!(prepreW, sparse(p))
+		Is = repeat(1:NN, inner=d)
+		Vs = ones(Int32, d*NN)
+		Js = zeros(Int32, d*NN)
+		for j in 1:NN
+			for k in 1:d
+				Js[d*(j-1)+k] = j+((k-1)*pv % NN)
+			end
 		end
 		println("d done")
-		push!(preW, sum(prepreW))
-#		push!(preW, sum([circshift(I, (j*pv, 0)) for j in 0:(d-1)]))
+		push!(preW, sparse(Is, Js, Vs))
         	pv *= d
 	end
 	println("N done")
