@@ -143,8 +143,8 @@ for N in Ns
 	println("N done")
 end
 
-println("Starting Kron prod")
-# Construct matrices A for Kronecker products A x B
+#=
+Construct matrices A for Kronecker products A x B
 krons = Array{Array{Int32, 2}, 1}() 
 for j in 1:M
 	kMatD = zeros(Int32, (B[j], B[j+1]))
@@ -157,9 +157,11 @@ for j in 1:M
 	kMat = kron(ones(Int32, (preb, postb)), kMatD)
 	push!(krons, kMat)
 end
+=#
 
 # Construct actual weight matrices
-W = [kron(kMat, prew) for (kMat, prew) in zip(krons, preW)]
+# W = [kron(kMat, prew) for (kMat, prew) in zip(krons, preW)]
+W = preW
 
 # Mutliply adjacency matrices
 # Wprod = prod(W)
@@ -169,5 +171,4 @@ W = [kron(kMat, prew) for (kMat, prew) in zip(krons, preW)]
 # numpaths = maximum(Wprod)
 
 # Print values
-println("Test: $(test1)")
-println("Number of Paths: $(numpaths)")
+println("Done!")
