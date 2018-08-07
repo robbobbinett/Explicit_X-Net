@@ -136,7 +136,14 @@ for N in Ns
 		    end
 		end
 		println("d done")
-		push!(preW, sum(prepreW))
+		wubs = zero(prepreW[1])
+		for wub in prepreW
+			tic()
+			wubs += wub
+			println(toq())
+		end
+		push!(preW, wub)
+#		push!(preW, sum(prepreW))
 #		push!(preW, sum([circshift(I, (j*pv, 0)) for j in 0:(d-1)]))
         	pv *= d
 	end
