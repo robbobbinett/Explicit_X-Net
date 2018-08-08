@@ -20,8 +20,8 @@ function rich_method(Ns::Array{Array{Int, 1}, 1})
 	# D = ones(Int32, M)
 	preW = Array{SparseMatrixCSC{Int32, Int32}, 1}()
 	function conv(x::Int, j::Int, pv::Int)
-		pre = (x+j*pv)%NN
-		pre = (pre == 0) ? NN : pre
+		pre = mod((x-1-j*pv), NN) + 1
+#		pre = (pre == 0) ? NN : pre
 		return pre
 	end
 
